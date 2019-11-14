@@ -2,5 +2,6 @@ require 'rubygems'
 require 'sinatra'
 
 get '/' do
-  "Hello from Sinatra on Heroku!"
+  content_type :json
+    { :key1 => 'value1', :key2 => 'value2' }.to_json
 end
