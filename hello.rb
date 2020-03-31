@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'pg'
 require 'sequel'
+post '/cards' do
+	puts params
+	end
 get '/' do
 	json_string = "["
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
