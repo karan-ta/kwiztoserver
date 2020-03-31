@@ -10,6 +10,7 @@ get '/' do
 
     # t_messages = conection.exec 'SELECT * FROM cards'
     # t_messages.each do |s_message|
+    puts "loop"
     DB.fetch("SELECT * FROM cards") do |s_message|
     	puts s_message
     	json_string += "{"
