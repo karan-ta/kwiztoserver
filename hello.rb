@@ -5,6 +5,7 @@ post '/cards' do
 	puts "-----------------------------"
 	puts params
 	puts "-----------------------------"
+	params.to_s
 	end
 
 get '/' do
