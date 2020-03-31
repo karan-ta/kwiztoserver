@@ -5,7 +5,7 @@ get '/' do
 	json_string = "["
   begin
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-       DB = Sequel.connect(ENV['DATABASE_URL'] 
+       DB = Sequel.connect(ENV['DATABASE_URL']) 
     # t_messages = conection.exec 'SELECT * FROM cards'
     # t_messages.each do |s_message|
     DB.fetch("SELECT * FROM cards") do |s_message|
