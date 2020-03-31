@@ -3,7 +3,6 @@ require 'pg'
 require 'sequel'
 get '/' do
 	json_string = "["
-  begin
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
        DB = Sequel.connect(ENV['DATABASE_URL']) 
     # t_messages = conection.exec 'SELECT * FROM cards'
@@ -37,11 +36,7 @@ get '/' do
     	puts "------------------------"
     end
     json_string += "]"
-  rescue PG::Error => e
-    val_error = e.message 
-  ensure
-    conection.close if conection
-  end
+ 
   json_string.gsub! '},]', '}]'
   json_string
   end
