@@ -17,9 +17,9 @@ get '/' do
 
     # t_messages = conection.exec 'SELECT * FROM cards'
     # t_messages.each do |s_message|
-    puts "------------------------------------loop"
+    # puts "------------------------------------loop"
     DB.fetch("SELECT * FROM cards") do |s_message|
-    	puts s_message
+    	# puts s_message
     	json_string += "{"
     	json_string += "\""
     	json_string += "text"
@@ -43,9 +43,7 @@ get '/' do
     	json_string += s_message[:viewtype]
     	json_string += "\""
     	json_string += "},"
-    	puts "------------------------"
-    	puts s_message['text']
-    	puts "------------------------"
+    	
     end
     json_string += "]"
  
