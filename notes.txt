@@ -1,5 +1,5 @@
 CREATE TABLE cards (
- card_id int PRIMARY KEY,
+ card_id int SERIAL PRIMARY KEY ,
  text text NOT NULL,
  audiolink text NOT NULL,
  serialnum int NOT NULL,
@@ -7,4 +7,11 @@ CREATE TABLE cards (
 );
 
 
-insert into cards values ('','',1,'front');
+insert into cards (text,audiolink,serialnum,viewtype) values ('Be yourself; everyone else is already taken','',1,'front');
+insert into cards (text,audiolink,serialnum,viewtype) values ('I have nothing to declare except my genius','',2,'front');
+insert into cards (text,audiolink,serialnum,viewtype) values ('The truth is rarely pure and never simple','',3,'front');
+insert into cards (text,audiolink,serialnum,viewtype) values ('back - Be yourself; everyone else is already taken','',1,'back');
+insert into cards (text,audiolink,serialnum,viewtype) values ('back - I have nothing to declare except my genius','',2,'back');
+insert into cards (text,audiolink,serialnum,viewtype) values ('back - The truth is rarely pure and never simple','',3,'back');
+
+postgresql-animated-78851
