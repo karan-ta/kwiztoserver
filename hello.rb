@@ -26,7 +26,7 @@ get '/' do
     	json_string += "serialnum"
     	json_string += "\""
     	json_string += ":"
-    	json_string += s_message[:serialnum]
+    	json_string += s_message[:serialnum].to_s
     	json_string += ','
     	json_string += "\""
     	json_string += "viewtype"
