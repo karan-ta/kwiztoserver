@@ -4,7 +4,7 @@ get '/' do
 	json_string = "["
   begin
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-        conection = PG.connect :dbname => ENV['DATABASE_NAME'], :user => ENV['DATABASE_USER'], :password => ENV['DATABASE_PASSWORD']
+        conection = PG.connect :dbname => <%= ENV['DATABASE_NAME']%>, :user => <%=ENV['DATABASE_USER']%>, :password => <%=ENV['DATABASE_PASSWORD']%>
     t_messages = conection.exec 'SELECT * FROM cards'
     t_messages.each do |s_message|
     	json_string += "{"
