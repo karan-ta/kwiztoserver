@@ -4,10 +4,14 @@ require 'sequel'
 get '/' do
 	json_string = "["
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-       DB = Sequel.connect(ENV['DATABASE_URL']) 
+       # DB = Sequel.connect(ENV['DATABASE_URL']) 
+       DB = Sequel.connect(ENV['DATABASE_URL'])
+# DB = Sequel.connect('postgres://karan:password1@localhost/kwizto')
+
     # t_messages = conection.exec 'SELECT * FROM cards'
     # t_messages.each do |s_message|
     DB.fetch("SELECT * FROM cards") do |s_message|
+    	puts s_message
     	json_string += "{"
     	json_string += "\""
     	json_string += "text"
