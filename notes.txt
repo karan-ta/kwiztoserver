@@ -1,0 +1,10 @@
+CREATE TABLE cards (
+ card_id int PRIMARY KEY,
+ text text NOT NULL,
+ audiolink text NOT NULL,
+ serialnum int NOT NULL,
+ viewtype varchar(50) NOT NULL
+);
+
+
+insert into cards values ('','',1,'front');
