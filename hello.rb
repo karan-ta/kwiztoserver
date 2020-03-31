@@ -6,7 +6,7 @@ get '/' do
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
        DB = Sequel.connect(ENV['DATABASE_URL'])
-# DB = Sequel.connect('postgres://karan:password1@localhost/kwizto')
+# DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
 
     # t_messages = conection.exec 'SELECT * FROM cards'
     # t_messages.each do |s_message|
@@ -19,21 +19,21 @@ get '/' do
     	json_string += "\""
     	json_string += ":"
     	json_string += "\""
-    	json_string += s_message['text']
+    	json_string += s_message[:text]
     	json_string += "\""
     	json_string += ','
     	json_string += "\""
     	json_string += "serialnum"
     	json_string += "\""
     	json_string += ":"
-    	json_string += s_message['serialnum']
+    	json_string += s_message[:serialnum]
     	json_string += ','
     	json_string += "\""
     	json_string += "viewtype"
     	json_string += "\""
     	json_string += ":"
     	json_string += "\""
-    	json_string += s_message['viewtype']
+    	json_string += s_message[:viewtype]
     	json_string += "\""
     	json_string += "},"
     	puts "------------------------"
