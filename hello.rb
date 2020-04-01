@@ -4,9 +4,10 @@ require 'sequel'
 post '/cards' do
 	# conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 	DB = Sequel.connect(ENV['DATABASE_URL'])
-	DB.fetch("SELECT max(serialnum) FROM cards as maxserialnum")  do |row|
+	DB.fetch("SELECT max(serialnum) as maxserialnum FROM cards")  do |row|
   	maxserialnum = row[:maxserialnum]
 	end
+	puts "maxserialnum query result "+maxserialnum
 	maxserialnum = maxserialnum.to_i + 1
 	maxserialnum = maxserialnum.to_s
 	if params["audiolink"] == nil
