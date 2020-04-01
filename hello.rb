@@ -23,8 +23,6 @@ post '/cards' do
 	end
 
 get '/' do
-	puts "hi"
-	return
 	json_string = "["
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
