@@ -15,3 +15,11 @@ insert into cards (text,audiolink,serialnum,viewtype) values ('back - I have not
 insert into cards (text,audiolink,serialnum,viewtype) values ('back - The truth is rarely pure and never simple','',3,'back');
 
 postgresql-animated-78851
+
+
+
+kwizto=# GRANT SELECT, INSERT, UPDATE, DELETE ON cards to karan;
+GRANT
+kwizto=# grant all on sequence cards_card_id_seq to karan;GRANT
+kwizto=# cards_card_id_seq
+

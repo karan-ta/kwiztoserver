@@ -2,13 +2,29 @@ require 'sinatra'
 require 'pg'
 require 'sequel'
 post '/cards' do
-	puts "-----------------------------"
-	puts params
-	puts "-----------------------------"
-	params.to_s
+	# conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+	DB = Sequel.connect(ENV['DATABASE_URL'])
+	DB.fetch("SELECT max(serialnum) FROM cards as maxserialnum")  do |row|
+  	maxserialnum = row[:maxserialnum]
+	end
+	maxserialnum = maxserialnum.to_i + 1
+	maxserialnum = maxserialnum.to_s
+	if params["audiolink"] == nil
+		params["audiolink"] = ''
+	end	
+	# frontquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\');'
+	# backquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\');'
+	frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
+	backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'back']
+	frontquery.insert
+	backquery.insert
+	# conection.exec frontquery
+	# conection.exec backquery
 	end
 
 get '/' do
+	puts "hi"
+	return
 	json_string = "["
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
