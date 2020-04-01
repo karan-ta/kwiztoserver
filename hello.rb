@@ -8,7 +8,7 @@ post '/cards' do
 	DB.fetch("SELECT max(serialnum) as maxserialnum FROM cards")  do |row|
   	maxserialnum = row[:maxserialnum]
 	end
-	puts "maxserialnum query result "+maxserialnum
+	puts "maxserialnum query result "+maxserialnum.to_s
 	maxserialnum = maxserialnum.to_i + 1
 	maxserialnum = maxserialnum.to_s
 	if params["audiolink"] == nil
