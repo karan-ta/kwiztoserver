@@ -3,6 +3,7 @@ require 'pg'
 require 'sequel'
 post '/cards' do
 	# conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+	maxserialnum = 0
 	DB = Sequel.connect(ENV['DATABASE_URL'])
 	DB.fetch("SELECT max(serialnum) as maxserialnum FROM cards")  do |row|
   	maxserialnum = row[:maxserialnum]
