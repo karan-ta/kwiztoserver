@@ -58,6 +58,14 @@ get '/' do
     	json_string += "\""
     	json_string += s_message[:viewtype]
     	json_string += "\""
+    	json_string += ','
+    	json_string += "\""
+    	json_string += "audiolink"
+    	json_string += "\""
+    	json_string += ":"
+    	json_string += "\""
+    	json_string += s_message[:audiolink]
+    	json_string += "\""
     	json_string += "},"
     	
     end
