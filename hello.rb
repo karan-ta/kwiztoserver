@@ -2,11 +2,14 @@ require 'sinatra'
 require 'pg'
 require 'sequel'
 post '/cards' do
+    uri = URI.parse(ENV['DATABASE_URL'])
+    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
 	# conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 	maxserialnum = 0
-	DB = Sequel.connect(ENV['DATABASE_URL'])
-	DB.fetch("SELECT max(serialnum) as maxserialnum FROM cards")  do |row|
-  	maxserialnum = row[:maxserialnum]
+	# DB = Sequel.connect(ENV['DATABASE_URL'])
+	queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
+    queryresult.each do |s_message|
+  	maxserialnum = s_message['maxserialnum']
 	end
 	puts "maxserialnum query result "+maxserialnum.to_s
 	maxserialnum = maxserialnum.to_i + 1
@@ -14,14 +17,15 @@ post '/cards' do
 	if params["audiolink"] == nil
 		params["audiolink"] = ''
 	end	
-	# frontquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\');'
-	# backquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\');'
-	frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
-	backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
-	frontquery.insert
-	backquery.insert
-	# conection.exec frontquery
-	# conection.exec backquery
+	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\');'
+	backquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\');'
+	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
+	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
+	# frontquery.insert
+	# backquery.insert
+	mydbconnection.exec frontquery
+	mydbconnection.exec backquery
+    mydbconnection.close if mydbconnection
 	end
 
 get '/test' do
