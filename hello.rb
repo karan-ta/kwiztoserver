@@ -29,7 +29,7 @@ get '/test' do
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
     t_messages = mydbconnection.exec 'SELECT * FROM cards'
     t_messages.each do |s_message|
-        puts s_message
+        puts s_message.to_s
     end
     end
 
