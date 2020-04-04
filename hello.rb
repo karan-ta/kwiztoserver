@@ -31,6 +31,7 @@ get '/test' do
     t_messages.each do |s_message|
         puts s_message.to_s
     end
+    mydbconnection.close if mydbconnection
     end
 
 get '/' do
