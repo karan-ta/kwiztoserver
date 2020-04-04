@@ -11,7 +11,7 @@ post '/cards' do
     queryresult.each do |s_message|
   	maxserialnum = s_message['maxserialnum']
 	end
-	puts "maxserialnum query result "+maxserialnum.to_s
+	puts "maxserialnum query results "+maxserialnum.to_s
 	maxserialnum = maxserialnum.to_i + 1
 	maxserialnum = maxserialnum.to_s
 	if params["audiolink"] == nil
