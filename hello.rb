@@ -24,6 +24,15 @@ post '/cards' do
 	# conection.exec backquery
 	end
 
+get '/test' do
+    uri = URI.parse(ENV['DATABASE_URL'])
+    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+    t_messages = mydbconnection.exec 'SELECT * FROM cards'
+    t_messages.each do |s_message|
+        puts s_message
+    end
+    end
+
 get '/' do
 	json_string = "["
     # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
