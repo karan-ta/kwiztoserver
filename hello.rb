@@ -39,15 +39,20 @@ get '/test' do
     end
 
 get '/' do
+    perpageitemsnumber = 5
+    page_number = params["page_number"]
+    page_number = page_number.to_i
+    offsetval = perpageitemsnumber*page_number
+    offsetval = offsetval.to_s
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
 	json_string = "["
-    # conection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+    # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
        # DB = Sequel.connect(ENV['DATABASE_URL'])
 # DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
 
-    t_messages = mydbconnection.exec 'SELECT * FROM cards'
+    t_messages = mydbconnection.exec 'SELECT * FROM cards limit '+perpageitemsnumber.to_s+' offset '+offsetval
     t_messages.each do |s_message|
     # puts "------------------------------------loop"
     # DB.fetch("SELECT * FROM cards") do |s_message|
