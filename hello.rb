@@ -45,10 +45,17 @@ get '/' do
     page_number = page_number.to_i
     offsetval = limit_number*page_number
     offsetval = offsetval.to_s
-    uri = URI.parse(ENV['DATABASE_URL'])
-    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+    maxserialnum = ""
+    # uri = URI.parse(ENV['DATABASE_URL'])
+    # mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+	 mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+	queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
+    
+    queryresult.each do |s_message|
+  	maxserialnum = s_message['maxserialnum']
+	end
 	json_string = "["
-    # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+   
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
        # DB = Sequel.connect(ENV['DATABASE_URL'])
 # DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
@@ -87,6 +94,14 @@ get '/' do
     	json_string += ":"
     	json_string += "\""
     	json_string += s_message['audiolink']
+    	json_string += "\""
+    	json_string += ','
+    	json_string += "\""
+    	json_string += "maxserialnum"
+    	json_string += "\""
+    	json_string += ":"
+    	json_string += "\""
+    	json_string += maxserialnum
     	json_string += "\""
     	json_string += "},"
     	
