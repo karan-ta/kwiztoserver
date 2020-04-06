@@ -40,9 +40,10 @@ get '/test' do
 
 get '/' do
     perpageitemsnumber = 5
+    limit_number = perpageitemsnumber*2
     page_number = params["page_number"]
     page_number = page_number.to_i
-    offsetval = perpageitemsnumber*page_number
+    offsetval = limit_number*page_number
     offsetval = offsetval.to_s
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
@@ -52,7 +53,7 @@ get '/' do
        # DB = Sequel.connect(ENV['DATABASE_URL'])
 # DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
 
-    t_messages = mydbconnection.exec 'SELECT * FROM cards limit '+perpageitemsnumber.to_s+' offset '+offsetval
+    t_messages = mydbconnection.exec 'SELECT * FROM cards limit '+limit_number.to_s+' offset '+offsetval
     t_messages.each do |s_message|
     # puts "------------------------------------loop"
     # DB.fetch("SELECT * FROM cards") do |s_message|
