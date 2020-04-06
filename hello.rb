@@ -53,7 +53,7 @@ get '/' do
        # DB = Sequel.connect(ENV['DATABASE_URL'])
 # DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
 
-    t_messages = mydbconnection.exec 'SELECT * FROM cards limit '+limit_number.to_s+' offset '+offsetval
+    t_messages = mydbconnection.exec 'SELECT * FROM cards order by serialnum,card_id limit '+limit_number.to_s+' offset '+offsetval
     t_messages.each do |s_message|
     # puts "------------------------------------loop"
     # DB.fetch("SELECT * FROM cards") do |s_message|
