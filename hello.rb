@@ -100,9 +100,7 @@ get '/' do
     	json_string += "maxserialnum"
     	json_string += "\""
     	json_string += ":"
-    	json_string += "\""
     	json_string += maxserialnum
-    	json_string += "\""
     	json_string += "},"
     	
     end
