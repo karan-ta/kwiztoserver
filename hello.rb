@@ -46,9 +46,9 @@ get '/' do
     offsetval = limit_number*page_number
     offsetval = offsetval.to_s
     maxserialnum = ""
-    # uri = URI.parse(ENV['DATABASE_URL'])
-    # mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
-	 mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+    uri = URI.parse(ENV['DATABASE_URL'])
+    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+	 # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 	queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     
     queryresult.each do |s_message|
