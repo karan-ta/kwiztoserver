@@ -6,16 +6,24 @@ post '/updateviewcount' do
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
 # increase viewcount by perpageitemsnumber
   mydeviceid = ""
+  myviewcount = ""
    # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-   queryresult = mydbconnection.exec 'SELECT device_id  FROM viewcount where device_id = \''+params['device_id']+'\''
+   queryresult = mydbconnection.exec 'SELECT device_id,view_count  FROM viewcount where device_id = \''+params['device_id']+'\''
     queryresult.each do |s_message|
     mydeviceid = s_message['device_id']
+    myviewcount = s_message['view_count']
     end
     puts "mydeviceid"
     puts mydeviceid
+    puts "myviewcount"
+    puts myviewcount
     if mydeviceid == ""
         mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
     else
+        if myviewcount.to_i > 20
+            mydbconnection.close if mydbconnection
+            return "paynow"
+        end    
         mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
     end
     puts mydbquery
