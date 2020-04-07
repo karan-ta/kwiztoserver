@@ -5,6 +5,11 @@ CREATE TABLE cards (
  serialnum int NOT NULL,
  viewtype varchar(50) NOT NULL
 );
+CREATE TABLE viewcount (
+device_id varchar(50) NOT NULL,
+view_count int NOT NULL
+);
+
 
 
 insert into cards (text,audiolink,serialnum,viewtype) values ('Be yourself; everyone else is already taken','',1,'front');

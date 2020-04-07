@@ -1,6 +1,27 @@
 require 'sinatra'
 require 'pg'
 require 'sequel'
+post '/updateviewcount' do
+    uri = URI.parse(ENV['DATABASE_URL'])
+    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+# increase viewcount by perpageitemsnumber
+  mydeviceid = ""
+   # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+   queryresult = mydbconnection.exec 'SELECT device_id  FROM viewcount where device_id = \''+params['device_id']+'\''
+    queryresult.each do |s_message|
+    mydeviceid = s_message['device_id']
+    end
+    puts "mydeviceid"
+    puts mydeviceid
+    if mydeviceid == ""
+        mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
+    else
+        mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
+    end
+    puts mydbquery
+     mydbconnection.exec mydbquery
+    mydbconnection.close if mydbconnection
+    end
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
