@@ -20,7 +20,7 @@ post '/updateviewcount' do
     if mydeviceid == ""
         mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
     else
-        if myviewcount.to_i > 20
+        if myviewcount.to_i > 300
             mydbconnection.close if mydbconnection
             return "paynow"
         end    
