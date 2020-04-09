@@ -18,7 +18,7 @@ post '/updateviewcount' do
     puts "myviewcount"
     puts myviewcount
     if mydeviceid == ""
-        mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',30);'
+        mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
     else
         if myviewcount.to_i > 3000
             mydbconnection.close if mydbconnection
@@ -69,7 +69,7 @@ get '/test' do
 
 get '/' do
     #if you change below then change in updateviewcount as well
-    perpageitemsnumber = 30
+    perpageitemsnumber = 5
     limit_number = perpageitemsnumber*2
     page_number = params["page_number"]
     page_number = page_number.to_i
