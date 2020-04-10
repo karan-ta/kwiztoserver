@@ -46,8 +46,14 @@ post '/cards' do
 	if params["audiolink"] == nil
 		params["audiolink"] = ''
 	end	
-	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\');'
-	backquery = 'insert into cards (text,audiolink,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\');'
+    if params["frontImageurl"] == nil
+        params["frontImageurl"] = ''
+    end 
+    if params["backImageurl"] == nil
+        params["backImageurl"] = ''
+    end 
+	frontquery = 'insert into cards (text,audiolink,frontimageurl,backimageurl,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\','+maxserialnum.to_s+',\'front\');'
+	backquery = 'insert into cards (text,audiolink,frontimageurl,backimageurl,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\','+maxserialnum.to_s+',\'back\');'
 	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
 	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
 	# frontquery.insert
