@@ -52,13 +52,16 @@ post '/cards' do
     if params["backImageurl"] == nil
         params["backImageurl"] = ''
     end 
-	frontquery = 'insert into cards (text,audiolink,frontimageurl,backimageurl,serialnum,viewtype) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\','+maxserialnum.to_s+',\'front\');'
-	backquery = 'insert into cards (text,audiolink,frontimageurl,backimageurl,serialnum,viewtype) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\','+maxserialnum.to_s+',\'back\');'
+	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\');'
+	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\''+params["frontimageurl"]+'\',\''+params["backimageurl"]+'\');'
 	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
 	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
 	# frontquery.insert
 	# backquery.insert
-	mydbconnection.exec frontquery
+	puts params
+    puts frontquery
+    puts backquery
+    mydbconnection.exec frontquery
 	mydbconnection.exec backquery
     mydbconnection.close if mydbconnection
 	end
