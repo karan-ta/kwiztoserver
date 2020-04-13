@@ -47,14 +47,16 @@ post '/cards' do
 		params["audiolink"] = ''
 	end	
     if params["frontImageurl"] == nil
-        params["frontImageurl"] = ''
+        para//ms["frontImageurl"] = ''
     end 
     if params["backImageurl"] == nil
         params["backImageurl"] = ''
     end 
+    if params["audiofiledurationseconds"] == nil
+        params["audiofiledurationseconds"] = '20'
     puts params
-	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\');'
-	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\');'
+	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofileDurationSeconds"]+');'
+	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofileDurationSeconds"]+');'
 	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
 	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
 	# frontquery.insert
@@ -156,6 +158,12 @@ get '/' do
     	json_string += "\""
     	json_string += ":"
     	json_string += maxserialnum
+         json_string += ','
+        json_string += "\""
+        json_string += "audiofileDurationSeconds"
+        json_string += "\""
+        json_string += ":"
+        json_string += s_message['audiofileDurationSeconds']
     	json_string += "},"
     	
     end
