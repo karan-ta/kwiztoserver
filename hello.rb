@@ -47,8 +47,8 @@ post '/cards' do
 		params["audiolink"] = ''
 	end	
     if params["frontImageurl"] == nil
-        para//ms["frontImageurl"] = ''
-    end 
+        params["frontImageurl"] = ''
+    end
     if params["backImageurl"] == nil
         params["backImageurl"] = ''
     end 
