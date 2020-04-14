@@ -54,6 +54,7 @@ post '/cards' do
     end 
     if params["audiofiledurationseconds"] == nil
         params["audiofiledurationseconds"] = '20'
+    end
     puts params
 	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofileDurationSeconds"]+');'
 	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofileDurationSeconds"]+');'
@@ -163,7 +164,7 @@ get '/' do
         json_string += "audiofileDurationSeconds"
         json_string += "\""
         json_string += ":"
-        json_string += s_message['audiofileDurationSeconds']
+        json_string += s_message['audiofiledurationseconds']
     	json_string += "},"
     	
     end
