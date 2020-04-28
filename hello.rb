@@ -56,8 +56,8 @@ post '/cards' do
         params["audiofiledurationseconds"] = '20'
     end
     puts params
-	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofileDurationSeconds"]+');'
-	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofileDurationSeconds"]+');'
+	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofiledurationseconds"]+');'
+	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofiledurationseconds"]+');'
 	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
 	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
 	# frontquery.insert
