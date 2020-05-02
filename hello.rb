@@ -8,7 +8,7 @@ post '/updateviewcount' do
   mydeviceid = ""
   myviewcount = ""
   mypage_number = ""
-     queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\''
+     queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\';'
     queryresult.each do |s_message|
     mypage_number = s_message['page_number']
     end
@@ -100,7 +100,7 @@ get '/' do
 	 # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 	#user is loading a new session so page number is 0
     if page_number == 0
-     mydevicepagenumresult = mydbconnection.exec 'SELECT page_number from device_pagenumber where device_id = '+params['device_id']
+     mydevicepagenumresult = mydbconnection.exec 'SELECT page_number from device_pagenumber where device_id = \''+params['device_id']+'\';'
      mydevicepagenumresult.each do |s_message|
     if s_message['page_number'] == ""
         print "no entry in device_pagenumber for "+params['device_id']
