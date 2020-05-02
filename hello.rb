@@ -107,9 +107,9 @@ get '/' do
     if s_message['page_number'] == ""
         print "no entry in device_pagenumber for "+params['device_id']
     else
-        mydevicepagenum = s_message['page_number']
-        mydevicepagenum = mydevicepagenum.to_i
-        offsetval = limit_number * mydevicepagenum
+        page_number = s_message['page_number']
+        page_number = page_number.to_i
+        offsetval = limit_number * page_number
        end
             end
             # do ends
