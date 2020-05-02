@@ -90,6 +90,7 @@ get '/test' do
 
 get '/' do
     #if you change below then change in updateviewcount as well
+
     perpageitemsnumber = 5
     limit_number = perpageitemsnumber*2
     page_number = params["page_number"]
@@ -97,11 +98,24 @@ get '/' do
     offsetval = limit_number*page_number
     mydevicepagenum = ""
     maxserialnum = ""
+    totalpages=""
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
 	 # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 	#user is loading a new session so page number is 0
-    if page_number == 0
+    totalpagesqueryresult = mydbconnection.exec 'SELECT count(*) as count from cards'
+    totalpagesqueryresult.each do |s_message|
+    totalpages = s_message['count']
+    totalpages = totalpages.to_i
+    totalpages = totalpages/(5*2)
+    totalpages = totalpages - 1
+    end
+    if params["getmode"] == "refresh"
+    if page_number > totalpages
+        page_number = page_number%(totalpages+1)
+    end
+    end
+    if params["getmode"] == "load"
      mydevicepagenumresult = mydbconnection.exec 'SELECT page_number from device_pagenumber where device_id = \''+params['device_id']+'\';'
      mydevicepagenumresult.each do |s_message|
     if s_message['page_number'] == ""
