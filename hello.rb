@@ -128,7 +128,9 @@ get '/' do
             end
             # do ends
     end
-
+    puts "LOG:"
+    puts page_number
+    puts offsetval
     queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     queryresult.each do |s_message|
   	maxserialnum = s_message['maxserialnum']
