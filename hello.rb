@@ -1,35 +1,42 @@
 require 'sinatra'
 require 'pg'
 require 'sequel'
+# mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
 post '/updateviewcount' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
-# increase viewcount by perpageitemsnumber
   mydeviceid = ""
   myviewcount = ""
-   # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-   queryresult = mydbconnection.exec 'SELECT device_id,view_count  FROM viewcount where device_id = \''+params['device_id']+'\''
+  mypage_number = ""
+     queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\''
+    queryresult.each do |s_message|
+    mypage_number = s_message['page_number']
+    end
+    if mypage_number == ""
+    mydevicepagenumquery = 'insert into device_pagenumber (device_id,page_number) values (\''+params['device_id']+'\',1);'
+    mydbconnection.exec mydevicepagenumquery
+    else
+    mydevicepagenumquery = 'update device_pagenumber set page_number = '+params["page_number"]+' where device_id = \''+params['device_id']+'\';' 
+    mydbconnection.exec mydevicepagenumquery
+    end
+
+    queryresult = mydbconnection.exec 'SELECT device_id,view_count  FROM viewcount where device_id = \''+params['device_id']+'\''
     queryresult.each do |s_message|
     mydeviceid = s_message['device_id']
     myviewcount = s_message['view_count']
     end
-    puts "mydeviceid"
-    puts mydeviceid
-    puts "myviewcount"
-    puts myviewcount
+
     if mydeviceid == ""
         mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
+         mydbconnection.exec mydbquery
     else
-        if myviewcount.to_i > 3000
-            mydbconnection.close if mydbconnection
-            return "paynow"
-        end    
+        # increase viewcount by perpageitemsnumber
         mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
+        mydbconnection.exec mydbquery
     end
-    puts mydbquery
-     mydbconnection.exec mydbquery
     mydbconnection.close if mydbconnection
     end
+
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
@@ -86,17 +93,34 @@ get '/' do
     page_number = params["page_number"]
     page_number = page_number.to_i
     offsetval = limit_number*page_number
-    offsetval = offsetval.to_s
+    mydevicepagenum = ""
     maxserialnum = ""
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
 	 # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
-	queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
-    
+	#user is loading a new session so page number is 0
+    if page_number == 0
+     mydevicepagenumresult = mydbconnection.exec 'SELECT page_number from device_pagenumber where device_id = '+params['device_id']
+     mydevicepagenumresult.each do |s_message|
+    if s_message['page_number'] == ""
+        print "no entry in device_pagenumber for "+params['device_id']
+    else
+        mydevicepagenum = s_message['page_number']
+        mydevicepagenum = mydevicepagenum.to_i
+        offsetval = limit_number * mydevicepagenum
+       end
+            end
+            # do ends
+    end
+
+    queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     queryresult.each do |s_message|
   	maxserialnum = s_message['maxserialnum']
 	end
-	json_string = "["
+	
+    offsetval = offsetval.to_s
+
+    json_string = "["
    
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
        # DB = Sequel.connect(ENV['DATABASE_URL'])
@@ -160,22 +184,14 @@ get '/' do
     	json_string += ":"
     	json_string += maxserialnum
          json_string += ','
-         json_string += "\""
-        json_string += "page_number"
-        json_string += "\""
-        json_string += ":"
-        json_string += "0"
-         json_string += ','
         json_string += "\""
         json_string += "audiofileDurationSeconds"
         json_string += "\""
         json_string += ":"
         json_string += s_message['audiofiledurationseconds']
     	json_string += "},"
-    	
     end
     json_string += "]"
- 
   json_string.gsub! '},]', '}]'
   mydbconnection.close if mydbconnection
   json_string

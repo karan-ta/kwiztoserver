@@ -10,6 +10,11 @@ device_id varchar(50) NOT NULL,
 view_count int NOT NULL
 );
 
+CREATE TABLE device_pagenumber (
+device_id varchar(50) NOT NULL,
+page_number int NOT NULL
+);
+
 
 
 insert into cards (text,audiolink,serialnum,viewtype) values ('Be yourself; everyone else is already taken','',1,'front');
@@ -27,4 +32,7 @@ kwizto=# GRANT SELECT, INSERT, UPDATE, DELETE ON cards to karan;
 GRANT
 kwizto=# grant all on sequence cards_card_id_seq to karan;GRANT
 kwizto=# cards_card_id_seq
+
+heroku pg:psql -a cgmap
+
 
