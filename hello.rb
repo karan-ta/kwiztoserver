@@ -12,6 +12,8 @@ post '/updateviewcount' do
     queryresult.each do |s_message|
     mypage_number = s_message['page_number']
     end
+    puts "page number print"
+    puts mypage_number
     if mypage_number == ""
     mydevicepagenumquery = 'insert into device_pagenumber (device_id,page_number) values (\''+params['device_id']+'\',1);'
     mydbconnection.exec mydevicepagenumquery
