@@ -190,7 +190,7 @@ get '/' do
         json_string += "page_number"
         json_string += "\""
         json_string += ":"
-        json_string += page_number
+        json_string += page_number.to_s
          json_string += ','
         json_string += "\""
         json_string += "audiofileDurationSeconds"
