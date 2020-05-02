@@ -90,12 +90,11 @@ get '/test' do
 
 get '/' do
     #if you change below then change in updateviewcount as well
-
     perpageitemsnumber = 5
     limit_number = perpageitemsnumber*2
     page_number = params["page_number"]
     page_number = page_number.to_i
-    offsetval = limit_number*page_number
+    
     mydevicepagenum = ""
     maxserialnum = ""
     totalpages=""
@@ -110,11 +109,7 @@ get '/' do
     totalpages = totalpages/(5*2)
     totalpages = totalpages - 1
     end
-    if params["getmode"] == "refresh"
-    if page_number > totalpages
-        page_number = page_number%(totalpages+1)
-    end
-    end
+  
     if params["getmode"] == "load"
      mydevicepagenumresult = mydbconnection.exec 'SELECT page_number from device_pagenumber where device_id = \''+params['device_id']+'\';'
      mydevicepagenumresult.each do |s_message|
@@ -123,27 +118,27 @@ get '/' do
     else
         page_number = s_message['page_number']
         page_number = page_number.to_i
-        offsetval = limit_number * page_number
        end
             end
             # do ends
     end
-    puts "LOG:"
+   
+      if page_number > totalpages
+        page_number = page_number%(totalpages+1)
+    end
+    offsetval = limit_number*page_number
+     puts "LOG:"
     puts page_number
     puts offsetval
     queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     queryresult.each do |s_message|
   	maxserialnum = s_message['maxserialnum']
 	end
-	
     offsetval = offsetval.to_s
-
     json_string = "["
-   
        # DB = Sequel.connect(ENV['DATABASE_URL']) 
        # DB = Sequel.connect(ENV['DATABASE_URL'])
 # DB = Sequel.connect('postgres://postgres:password1@localhost/kwizto')
-
     t_messages = mydbconnection.exec 'SELECT * FROM cards order by serialnum,card_id limit '+limit_number.to_s+' offset '+offsetval
     t_messages.each do |s_message|
     # puts "------------------------------------loop"
