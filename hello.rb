@@ -193,6 +193,7 @@ get '/' do
     end
     json_string += "]"
   json_string.gsub! '},]', '}]'
+  print json_string
   mydbconnection.close if mydbconnection
   json_string
   end
