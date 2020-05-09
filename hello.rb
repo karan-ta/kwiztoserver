@@ -43,7 +43,7 @@ post '/createdeck' do
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
     puts params['deck_name']
     mycreatedeckquery = 'insert into deck (deck_name) values (\''+params['deck_name']+'\',1);'
-    mydbconnection.exec mydevicepagenumquery
+    mydbconnection.exec mycreatedeckquery
 end
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
