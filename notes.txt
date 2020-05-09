@@ -10,12 +10,11 @@ device_id varchar(50) NOT NULL,
 view_count int NOT NULL
 );
 
-CREATE TABLE device_pagenumber (
-device_id varchar(50) NOT NULL,
-page_number int NOT NULL
-);
+ALTER TABLE cards
+ADD COLUMN frontimageurl text;
 
-
+ALTER TABLE cards
+ADD COLUMN backimageurl text;
 
 insert into cards (text,audiolink,serialnum,viewtype) values ('Be yourself; everyone else is already taken','',1,'front');
 insert into cards (text,audiolink,serialnum,viewtype) values ('I have nothing to declare except my genius','',2,'front');
@@ -29,10 +28,13 @@ postgresql-animated-78851
 
 
 kwizto=# GRANT SELECT, INSERT, UPDATE, DELETE ON cards to karan;
+GRANT SELECT, INSERT, UPDATE, DELETE ON viewcount to karan;
 GRANT
 kwizto=# grant all on sequence cards_card_id_seq to karan;GRANT
 kwizto=# cards_card_id_seq
 
-heroku pg:psql -a cgmap
+ curl -d "fronttext=value1&backtext=test&audiolink=https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/lesson34?alt=media&token=2769555a-6cc3-4576-b92c-3117ea96c4f0" -X POST https://cgmap.herokuapp.com/cards
 
-
+  75 | hg      | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/lesson34?alt=media&token=2769555a-6cc3-4576-b92c-3117ea96c4f0   
+ |        35 | back     | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/frontimage34?alt=media&token=3786a909-8787-42b4-9313-cebbe4
+3efe9d | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/backimage34?alt=media&token=6fcb4a56-e574-4dbe-887a-0db9c76dcd2a

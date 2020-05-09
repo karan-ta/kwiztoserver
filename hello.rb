@@ -38,7 +38,12 @@ post '/updateviewcount' do
     end
     mydbconnection.close if mydbconnection
     end
-
+post '/createdeck' do
+    uri = URI.parse(ENV['DATABASE_URL'])
+    mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+    mydevicepagenumquery = 'insert into device_pagenumber (device_id,page_number) values (\''+params['device_id']+'\',1);'
+    mydbconnection.exec mydevicepagenumquery
+end
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
