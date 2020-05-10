@@ -48,7 +48,7 @@ end
 get '/decks' do
  uri = URI.parse(ENV['DATABASE_URL'])
  mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
- t_messages = mydbconnection.exec 'SELECT * FROM decks;'
+ t_messages = mydbconnection.exec 'SELECT * FROM deck;'
     t_messages.each do |s_message|
     # puts "------------------------------------loop"
     # DB.fetch("SELECT * FROM cards") do |s_message|
