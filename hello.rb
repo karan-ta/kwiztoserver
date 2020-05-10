@@ -46,6 +46,7 @@ post '/createdeck' do
     mydbconnection.exec mycreatedeckquery
 end
 get '/decks' do
+ json_string = "["
  uri = URI.parse(ENV['DATABASE_URL'])
  mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
  t_messages = mydbconnection.exec 'SELECT * FROM deck;'
@@ -61,9 +62,12 @@ get '/decks' do
         json_string += "\""
         json_string += s_message['deck_name']
         json_string += "\""
-        json_string += "}"
+        json_string += "},"
     end
+     json_string += "]"
+     json_string.gsub! '},]', '}]'
      mydbconnection.close if mydbconnection
+     json_string
 end
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
