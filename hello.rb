@@ -45,6 +45,26 @@ post '/createdeck' do
     mycreatedeckquery = 'insert into deck (deck_name) values (\''+params['deck_name']+'\');'
     mydbconnection.exec mycreatedeckquery
 end
+post '/decks' do
+ uri = URI.parse(ENV['DATABASE_URL'])
+ mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+ t_messages = mydbconnection.exec 'SELECT * FROM decks;'
+    t_messages.each do |s_message|
+    # puts "------------------------------------loop"
+    # DB.fetch("SELECT * FROM cards") do |s_message|
+        # puts s_message
+        json_string += "{"
+        json_string += "\""
+        json_string += "deck_name"
+        json_string += "\""
+        json_string += ":"
+        json_string += "\""
+        json_string += s_message['deck_name']
+        json_string += "\""
+        json_string += "}"
+    end
+     mydbconnection.close if mydbconnection
+end
 post '/cards' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
