@@ -55,7 +55,12 @@ get '/decks' do
     # DB.fetch("SELECT * FROM cards") do |s_message|
         # puts s_message
         json_string += "{"
+         json_string += "\""
+        json_string += "deck_id"
         json_string += "\""
+        json_string += ":"
+         json_string += s_message['deck_id']
+        json_string += ",\""
         json_string += "deck_name"
         json_string += "\""
         json_string += ":"
