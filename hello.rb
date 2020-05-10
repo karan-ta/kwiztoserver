@@ -45,7 +45,7 @@ post '/createdeck' do
     mycreatedeckquery = 'insert into deck (deck_name) values (\''+params['deck_name']+'\');'
     mydbconnection.exec mycreatedeckquery
 end
-post '/decks' do
+get '/decks' do
  uri = URI.parse(ENV['DATABASE_URL'])
  mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
  t_messages = mydbconnection.exec 'SELECT * FROM decks;'
