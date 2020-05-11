@@ -11,7 +11,7 @@ post '/updateviewcount' do
      queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\';'
     queryresult.each do |s_message|
     mypage_number = s_message['page_number']
-    if mypage_number > 500
+    if mypage_number.to_i > 500
         return "paynow"
     end
     end
