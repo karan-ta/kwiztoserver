@@ -2,6 +2,8 @@ require 'sinatra'
 require 'pg'
 require 'sequel'
 # mydbconnection = PG.connect :dbname => 'kwizto', :user => 'karan', :password => 'password1'
+# device pagenumber is to know current page
+# viewcount is used for payment
 post '/updateviewcount' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
@@ -11,11 +13,8 @@ post '/updateviewcount' do
      queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\';'
     queryresult.each do |s_message|
     mypage_number = s_message['page_number']
-    puts "$$$$$$$$$$$"
-    puts mypage_number.to_i
-    if mypage_number.to_i > 500
-        return "paynow"
-    end
+   
+   
     end
     puts "page number print"
     puts mypage_number
@@ -31,15 +30,21 @@ post '/updateviewcount' do
     queryresult.each do |s_message|
     mydeviceid = s_message['device_id']
     myviewcount = s_message['view_count']
+
     end
 
     if mydeviceid == ""
         mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
          mydbconnection.exec mydbquery
     else
+         if myviewcount.to_i > 500
+            return "paynow"
+         end   
+
         # increase viewcount by perpageitemsnumber
         mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
         mydbconnection.exec mydbquery
+        if 
     end
     mydbconnection.close if mydbconnection
     end
