@@ -141,8 +141,9 @@ get '/' do
     totalpagesqueryresult.each do |s_message|
     totalpages = s_message['count']
     totalpages = totalpages.to_i
-    totalpages = totalpages/(5*2)
-    totalpages = totalpages - 1
+    totalpages = totalpages/2
+    totalpages = (totalpages.to_f/perpageitemsnumber).ceil
+
     end
   
     if params["getmode"] == "load"
@@ -163,8 +164,10 @@ get '/' do
     end
     offsetval = limit_number*page_number
      puts "LOG:"
+    puts totalpages 
     puts page_number
     puts offsetval
+    puts "LOG ENDS:"
     queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     queryresult.each do |s_message|
   	maxserialnum = s_message['maxserialnum']
