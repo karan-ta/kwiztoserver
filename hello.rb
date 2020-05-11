@@ -159,14 +159,13 @@ get '/' do
             # do ends
     end
    
-      if page_number > totalpages
-        page_number = page_number%(totalpages+1)
+      if (page_number + 1) > totalpages
+        page_number = (page_number+1)%(totalpages+1)
     end
     offsetval = limit_number*page_number
      puts "LOG:"
     puts totalpages 
     puts page_number
-    puts offsetval
     puts "LOG ENDS:"
     queryresult = mydbconnection.exec 'SELECT max(serialnum) as maxserialnum FROM cards'
     queryresult.each do |s_message|
