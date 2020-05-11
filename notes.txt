@@ -9,9 +9,15 @@ CREATE TABLE viewcount (
 device_id varchar(50) NOT NULL,
 view_count int NOT NULL
 );
-
+CREATE TABLE deck (
+deck_id SERIAL PRIMARY KEY,
+deck_name varchar(500) NOT NULL,
+);
 ALTER TABLE cards
 ADD COLUMN frontimageurl text;
+
+ALTER TABLE cards
+ADD COLUMN deck_id integer;
 
 ALTER TABLE cards
 ADD COLUMN backimageurl text;
@@ -38,3 +44,8 @@ kwizto=# cards_card_id_seq
   75 | hg      | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/lesson34?alt=media&token=2769555a-6cc3-4576-b92c-3117ea96c4f0   
  |        35 | back     | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/frontimage34?alt=media&token=3786a909-8787-42b4-9313-cebbe4
 3efe9d | https://firebasestorage.googleapis.com/v0/b/kwizto.appspot.com/o/backimage34?alt=media&token=6fcb4a56-e574-4dbe-887a-0db9c76dcd2a
+
+
+send deckid while creating card 
+
+
