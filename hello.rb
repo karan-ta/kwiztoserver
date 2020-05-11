@@ -44,7 +44,7 @@ post '/updateviewcount' do
         # increase viewcount by perpageitemsnumber
         mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
         mydbconnection.exec mydbquery
-        if 
+      
     end
     mydbconnection.close if mydbconnection
     end
