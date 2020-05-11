@@ -7,14 +7,12 @@ require 'sequel'
 post '/updateviewcount' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
-  mydeviceid = ""
-  myviewcount = ""
-  mypage_number = ""
-     queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\';'
+    mydeviceid = ""
+    myviewcount = ""
+    mypage_number = ""
+    queryresult = mydbconnection.exec 'SELECT device_id,page_number  FROM device_pagenumber where device_id = \''+params['device_id']+'\';'
     queryresult.each do |s_message|
     mypage_number = s_message['page_number']
-   
-   
     end
     puts "page number print"
     puts mypage_number
@@ -25,26 +23,21 @@ post '/updateviewcount' do
     mydevicepagenumquery = 'update device_pagenumber set page_number = '+params["page_number"]+' where device_id = \''+params['device_id']+'\';' 
     mydbconnection.exec mydevicepagenumquery
     end
-
     queryresult = mydbconnection.exec 'SELECT device_id,view_count  FROM viewcount where device_id = \''+params['device_id']+'\''
     queryresult.each do |s_message|
     mydeviceid = s_message['device_id']
     myviewcount = s_message['view_count']
-
     end
-
     if mydeviceid == ""
         mydbquery = 'insert into viewcount (device_id,view_count) values (\''+params['device_id']+'\',5);'
-         mydbconnection.exec mydbquery
+        mydbconnection.exec mydbquery
     else
          if myviewcount.to_i > 500
             return "paynow"
          end   
-
         # increase viewcount by perpageitemsnumber
         mydbquery = 'update viewcount set view_count = view_count + 5 where device_id = \''+params['device_id']+'\';' 
         mydbconnection.exec mydbquery
-      
     end
     mydbconnection.close if mydbconnection
     end
@@ -110,8 +103,8 @@ post '/cards' do
         params["audiofiledurationseconds"] = '20'
     end
     puts params
-	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds,deck_id) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofiledurationseconds"]+',\''+params[deck_id]+'\');'
-	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds,deck_id) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofiledurationseconds"]+',\''+params[deck_id]+'\');'
+	frontquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds,deck_id) values (\''+params["fronttext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'front\',\''+params["frontImageurl"]+'\',\'\','+params["audiofiledurationseconds"]+',\''+params["deck_id"]+'\');'
+	backquery = 'insert into cards (text,audiolink,serialnum,viewtype,frontimageurl,backimageurl,audiofiledurationseconds,deck_id) values (\''+params["backtext"]+'\',\''+params["audiolink"]+'\','+maxserialnum.to_s+',\'back\',\'\',\''+params["backImageurl"]+'\','+params["audiofiledurationseconds"]+',\''+params["deck_id"]+'\');'
 	# frontquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["fronttext"],params["audiolink"],maxserialnum,'front']
 	# backquery=DB["insert into cards (text,audiolink,serialnum,viewtype) values (?,?,?,?)", params["backtext"],params["audiolink"],maxserialnum,'back']
 	# frontquery.insert
