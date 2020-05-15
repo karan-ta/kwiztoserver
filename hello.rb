@@ -126,6 +126,10 @@ get '/test' do
     mydbconnection.close if mydbconnection
     end
 
+get '/testjar' do
+
+system("java -jar Testjar.jar")
+end    
 get '/' do
     #if you change below then change in updateviewcount as well
     perpageitemsnumber = 5
