@@ -48,4 +48,6 @@ kwizto=# cards_card_id_seq
 
 send deckid while creating card 
 
+400703 -> girdhar laptop
+
 
