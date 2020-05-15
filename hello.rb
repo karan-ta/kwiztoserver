@@ -128,7 +128,7 @@ get '/test' do
 
 get '/testjar' do
 
-system("java -jar Testjar.jar")
+system("java -jar Testjar.jar KODE_PLAY Kodeplay@08")
 end    
 get '/' do
     #if you change below then change in updateviewcount as well
