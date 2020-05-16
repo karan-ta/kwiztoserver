@@ -49,9 +49,9 @@ post '/updatecaptchavalue' do
 puts "-------------------------------------------------"    
 puts params['captchavalue']
 puts "-----------------------------------------------------"
-# File.open("/app/out.txt", "w+") {|file| file.write(params['captchavalue'])}
+File.open("/tmp/out.txt", "w+") {|file| file.write(params['captchavalue'])}
 end 
-   
+
 post '/createdeck' do
     uri = URI.parse(ENV['DATABASE_URL'])
     mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
