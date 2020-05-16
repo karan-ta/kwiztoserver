@@ -44,9 +44,7 @@ post '/updateviewcount' do
 
 post '/updatecaptchavalue' do
 puts params['captchavalue']
-out_file = File.new("/app/out.txt", "w")
-out_file.puts(params['captchavalue'])
-out_file.close
+File.open("/app/out.txt", "w+") {|file| file.write(params['captchavalue'])}
 end    
 post '/createdeck' do
     uri = URI.parse(ENV['DATABASE_URL'])
