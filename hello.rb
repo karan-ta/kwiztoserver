@@ -46,13 +46,11 @@ File.open("out.txt", "w+") {|file| file.write('hello world')}
 end
 
 post '/updatecaptchavalue' do
-puts "-------------------------------------------------"    
-puts params['captchavalue']
-puts "-----------------------------------------------------"
-f = File.new("/app/tmp/out.txt", 'w')
-f << params['captchavalue']
-f.close
-200
+uri = URI.parse(ENV['DATABASE_URL'])
+mydbconnection = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+mycaptchaquery = 'update captchavalue set captchavalue = '+params["captchavalue"];
+    mydbconnection.exec mycaptchaquery
+    mydbconnection.close if mydbconnection
 end 
 
 post '/createdeck' do
