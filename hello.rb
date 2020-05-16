@@ -49,7 +49,10 @@ post '/updatecaptchavalue' do
 puts "-------------------------------------------------"    
 puts params['captchavalue']
 puts "-----------------------------------------------------"
-File.open("/tmp/out.txt", "w+") {|file| file.write(params['captchavalue'])}
+f = File.new("tmp/out.txt", 'w')
+f << params['captchavalue']
+f.close
+200
 end 
 
 post '/createdeck' do
