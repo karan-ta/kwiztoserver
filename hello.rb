@@ -44,6 +44,7 @@ post '/updateviewcount' do
 
 post '/updatecaptchavalue' do
 puts params['captchavalue']
+puts "-----------------------------------------------------"
 File.open("/app/out.txt", "w+") {|file| file.write(params['captchavalue'])}
 end    
 post '/createdeck' do
