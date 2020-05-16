@@ -41,8 +41,11 @@ post '/updateviewcount' do
     end
     mydbconnection.close if mydbconnection
     end
-
+get '/testwrite' do
+File.open("out.txt", "w+") {|file| file.write('hello world')}
+end
 post '/updatecaptchavalue' do
+puts "-------------------------------------------------"    
 puts params['captchavalue']
 puts "-----------------------------------------------------"
 File.open("/app/out.txt", "w+") {|file| file.write(params['captchavalue'])}
