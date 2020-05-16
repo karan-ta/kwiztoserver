@@ -42,7 +42,7 @@ post '/updateviewcount' do
     mydbconnection.close if mydbconnection
     end
 
-post updatecaptchavalue do
+post '/updatecaptchavalue' do
 puts params["captchavalue"]
 end    
 post '/createdeck' do
