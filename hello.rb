@@ -49,7 +49,7 @@ post '/updatecaptchavalue' do
 puts "-------------------------------------------------"    
 puts params['captchavalue']
 puts "-----------------------------------------------------"
-f = File.new("tmp/out.txt", 'w')
+f = File.new("/app/tmp/out.txt", 'w')
 f << params['captchavalue']
 f.close
 200
