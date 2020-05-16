@@ -130,6 +130,7 @@ redirect('captchaimages/mygstcropped.png')
 end
 get '/testjar' do
 system("java -jar Testjar.jar KODE_PLAY Kodeplay@08")
+#sinatra will search in public folder by default.
 redirect('captchaimages/mygstcropped.png')
 end    
 get '/' do
