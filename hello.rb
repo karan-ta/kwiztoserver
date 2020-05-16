@@ -44,7 +44,7 @@ post '/updateviewcount' do
 
 post '/updatecaptchavalue' do
 puts params['captchavalue']
-out_file = File.new("out.txt", "w")
+out_file = File.new("/app/out.txt", "w")
 out_file.puts(params['captchavalue'])
 out_file.close
 end    
